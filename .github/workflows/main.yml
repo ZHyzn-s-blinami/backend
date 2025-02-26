@@ -18,6 +18,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd /home/prod/prod/backend/main-backend
+            git pull
             docker build -t backend:latest .
       - name: Deploy
         uses: appleboy/ssh-action@v0.1.7
