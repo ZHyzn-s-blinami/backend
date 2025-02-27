@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import prod.last.mainbackend.configurations.jwt.JwtUtils;
 import prod.last.mainbackend.models.UserModel;
 import prod.last.mainbackend.models.request.LoginRequest;
+import prod.last.mainbackend.models.request.RegisterRequest;
 import prod.last.mainbackend.models.response.JwtResponse;
 import prod.last.mainbackend.services.TokenService;
 import prod.last.mainbackend.services.UserService;
@@ -31,16 +32,16 @@ public class UserController {
     private final JwtUtils jwtUtils;
 
     @PostMapping("/sign-up")
-    public ResponseEntity<?> register(@Valid @RequestBody UserModel user) {
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
 
-        UserModel userModel = userService.createUser(user.getLogin(), user.getEmail(), user.getPassword());
+        UserModel userModel = userService.createUser(request.getLogin(), request.getEmail(), request.getPassword());
 
         tokenService.updateTokenUUID(userModel);
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         userModel.getId().toString(),
-                        user.getPassword())
+                        request.getPassword())
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);

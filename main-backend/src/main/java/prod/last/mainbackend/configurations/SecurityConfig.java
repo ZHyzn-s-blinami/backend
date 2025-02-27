@@ -74,6 +74,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/user/sign-up").permitAll()
                         .requestMatchers("/api/user/sign-in").permitAll()
                         .requestMatchers("/api/ping").permitAll()
+                        .requestMatchers("/api/doc/**").permitAll()
                         .anyRequest().authenticated())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authenticationProvider(authenticationProvider())
